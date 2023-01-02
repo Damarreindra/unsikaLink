@@ -1,0 +1,86 @@
+aside {
+  width: 380px;
+  height: 100vh;
+  background-color: #fff;
+  border-style: solid;
+  border-top: 0;
+  border-width: 0.2;
+  border-color: #F9F6EE;
+  position: fixed;
+  z-index: 5;
+  right: 0;
+}
+
+.search-bar {
+  width: 350px;
+}
+
+.trending {
+  width: 360px;
+  height: 350px;
+  background-color: #F9F6EE;
+  border-radius: 20px;
+}
+.topics-list{
+list-style: none;
+position: absolute;
+margin-top: 4rem;
+margin-left: -11.8px;
+display: flex;
+flex-direction: column;
+}
+.suggest {
+  width: 360px;
+  height: 250px;
+  background-color: #F9F6EE;
+  border-radius: 20px;
+  margin-top: 16px;
+}
+#people-text{
+  font-size: 16px;
+}
+.right-bar-title{
+  font-size: 1.5em;
+  margin-top: 1rem;
+  font-weight: bold;
+  position: absolute;
+}
+
+.topic{
+  height: 80px;
+  width: 360px;
+  display: flex;
+  align-items: center;
+}
+.people{
+  height: 50px;
+  width: 360px;
+  display: flex;
+  align-items: center;
+}
+#people-text{
+  margin-left: 20px;
+}
+.topic h4{
+  margin-left: 20px;
+}
+.topic:hover{
+  background-color: #fff;
+}
+.people:hover{
+  background-color: #fff;
+}
+#people-img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-top: 2px;
+    margin-left: 20px;
+}
+#people-btn{
+  margin-left: 100px;
+}
+.people-container{
+  display: flex;
+  align-items: center;
+}
