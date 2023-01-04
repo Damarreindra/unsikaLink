@@ -15,12 +15,6 @@ export const SidebarData =
         cName:'nav-text'
     },
     {
-        title: 'Explore',
-        path:'/aboutpageuser',
-        icon:<AiIcons.AiFillCompass/>,
-        cName:'nav-text'
-    },
-    {
         title: 'Profile',
         path:`/profile/${id}`,
         icon:<CgIcons.CgProfile/>,

@@ -20,9 +20,8 @@ function UncontrolledExample() {
       <div className="dark-overlay">
         <img
           id="img-jumbotron"
-          className="mt-4 mx-5"
+          className="mt-4"
           src="https://user-images.githubusercontent.com/80618060/209114883-ed44bbe0-ba87-414b-8997-e2fbef00b26d.png"
-          style={{ height: "12.5rem" }}
           alt=""
         />
       </div>

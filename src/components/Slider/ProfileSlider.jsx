@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getListUser } from "../../actions/userAction";
+import * as AiIcons from 'react-icons/ai'
 import moment from "moment/moment";
 
 function ProfileSlider() {
@@ -20,11 +21,10 @@ function ProfileSlider() {
    
     useEffect(()=>{
         if(getListUserResult){
-            setUser(getListUserResult)
+            setUser(getListUserResult.items)
         }
     },[getListUserResult])
     
-    console.log(user);
   
  
   return (
@@ -34,17 +34,17 @@ function ProfileSlider() {
         return(
             <div className="banner">
             <div
-              id="jumbotron"
+              id=""
               className="p-5 rounded-08 shadow border-0 text-white d-flex justify-content-between rounded"
               style={{ height: "250px", marginTop: "80px" }}
             >
               
-              <div id="text">
+              <div className="text-black" id="text">
                 <img id="profile-img-slider" src={user.profile_img} alt="" />
-                <h2>{user.username}</h2>
-                <p>Joined: {moment(user.createdAt).format("MMM Do YY")}</p>
+                <h2 id="profile-username">{user.username}</h2>
+                <p><AiIcons.AiFillCalendar/> Joined {moment(user.createdAt).format("MMM Do YY")}</p>
               </div>
-             
+             <button id="btn-edit-profile" className="btn">Edit Profile</button>
             </div>
             </div>
         )

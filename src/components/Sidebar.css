@@ -13,7 +13,12 @@
     top: 0;
     z-index: 4
 }
-
+#btn-logout{
+    width: 12rem;
+    height: 3rem;
+    background-color: #E2DFD2;
+    border: none;
+}
 .menu-bars{
     margin-left: 2rem;
     font-size: 2rem;
@@ -50,7 +55,7 @@
     transition: 350ms;
 }
 #profile-info{
-    width: 12rem;
+    width: 13rem;
     height: 60px;
     position: absolute;
     bottom: 20px;
@@ -60,8 +65,8 @@
     gap: 1rem;
 }
 #profile-info:hover{
-    background-color: #E2DFD2;
-    border-radius: 50px;
+    /* background-color: #E2DFD2;
+    border-radius: 50px; */
 }
 #profile-uname{
     justify-content: center;

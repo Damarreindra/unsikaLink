@@ -3,5 +3,20 @@
     margin-left: 310px;
 }
 #profile-img-slider{
-    width: 5rem;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+}
+#profile-username{
+    font-weight: bolder;
+}
+#img-jumbotron{
+    width: 19rem;
+    margin-left: 80px;
+}
+#btn-edit-profile{
+    height: 2.5rem;
+    border: solid;
+    border-width: 0.8;
+    border-color: #cac8c3;
 }

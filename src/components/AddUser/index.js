@@ -83,6 +83,8 @@ function AddUser() {
                       onChange={(e) => setUsername(e.target.value)}
                       name="username"
                       id="uname"
+                      minLength={8}
+                      maxLength={8}
                       placeholder="Username"
                       required
                     />
@@ -97,6 +99,7 @@ function AddUser() {
                       onChange={(e) => setPassword(e.target.value)}
                       name="password"
                       id="pword"
+
                       placeholder="Password"
                       required
                     />

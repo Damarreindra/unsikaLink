@@ -35,7 +35,7 @@ navigation(`/detail/${id}`)
           <div class="row d-flex justify-content-center">
             
         {getListUserResult ? (
-          getListUserResult.map((person) => {
+          getListUserResult.items.map((person) => {
            if(person.id === id){
             
             return (

@@ -3,6 +3,7 @@ import { NavLink, Link } from 'react-router-dom'
 import * as FaIcons from 'react-icons/fa'
 import * as AiIcons from 'react-icons/ai'
 import { SidebarData } from './SidebarData'
+import { Dropdown } from 'react-bootstrap'
 import './Sidebar.css'
 import AddPost from './AddPost'
 
@@ -12,6 +13,9 @@ function SidebarTweed() {
     const profileImg = localStorage.getItem('img')
     const activeLink = 'text-success'
     const normalLink = 'text-dark'
+    const removeToken = () =>{
+        localStorage.removeItem('token')
+       }
     const showSidebar = () => setSidebar(!sidebar)
     const id = localStorage.getItem('id')
   return (
@@ -50,10 +54,16 @@ function SidebarTweed() {
                 <AddPost/>
             </li>
             <li>
-            <Link className='text-dark' style={{textDecoration:'none'}} to={`/profile/${id}`} id='profile-info'>
+            <Dropdown>
+            <Dropdown.Toggle id='btn-logout' className='text-dark' style={{textDecoration:'none'}}>
                 <img id='profile-img' src={profileImg} alt="" />
                 <h2 id='profile-uname'>{uname}</h2>
-                </Link>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+                <Dropdown.Item href="/login" onClick={()=>removeToken()}>Logout</Dropdown.Item>
+            </Dropdown.Menu>
+            </Dropdown>
             </li>
         </ul>
             

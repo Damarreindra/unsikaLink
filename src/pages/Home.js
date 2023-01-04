@@ -16,7 +16,10 @@ import Sidebar from '../components/Sidebar'
 import RightBar from '../components/RightBar/RightBar'
 
 function Home() {
-
+  const getToken = localStorage.getItem('token')
+  if(getToken === null){
+    window.location='/login'
+  }
   const { getListUserResult, getListUserLoading, getListUserError, updatePublishResult, unPublishResult} = useSelector((state)=> state.UserReducer)
     const dispatch = useDispatch();
     

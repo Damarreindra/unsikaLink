@@ -36,14 +36,8 @@ function AddImg() {
       })
       .catch((err) => console.log(err));
   };
-
-//   useEffect(()=>{
-//     if(addProfileImgResult){
-//         alert("Profile Picture Berhasil Dibuat")
-//         window.location='/login'
-//     }
-// },[addProfileImgResult])
-
+  
+  
 
   if(!url){
     setUrl(defImg)
@@ -65,7 +59,7 @@ function AddImg() {
               <div className="col-md-6 mx-auto">
                 <div className="card-body text-center">
                   <h2 className="card-title border-bottom mb-4 text-success">
-                    Set Your Profile Picture
+                  Set Your Profile Picture
                   </h2>
                   <img
                     className="def-img mx-auto"
@@ -79,6 +73,7 @@ function AddImg() {
                     <div>
                       <Form.Control
                         type="file"
+                       
                         onChange={(e) => setImage(e.target.files[0])}
                       />
 

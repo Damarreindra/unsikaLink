@@ -38,7 +38,6 @@ const ModalComponent = ({ show, HideHandler }) => {
       dispatch(HideHandler);
       setTitle("");
       setContent("");
-      window.location='/home'
     }
   }, [addPostResult, dispatch]);
 
@@ -72,6 +71,7 @@ const ModalComponent = ({ show, HideHandler }) => {
                 maxLength={100}
               ></input>
              <select value={theme} onChange={(e)=>setTheme(e.target.value)} required >
+               <option required>Pilih Tema</option>
                 <option required value="politics">Politics</option>
                 <option required value="mental">Mental Health</option>
                 <option required value="other">Other</option>

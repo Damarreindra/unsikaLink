@@ -41,7 +41,7 @@ function Cards() {
   const handleDetail = (id) =>{
 navigation(`/detail/${id}`)
   }
-  console.log(getListUserResult);
+  
   return (
     <>
     
@@ -55,7 +55,7 @@ navigation(`/detail/${id}`)
           <div class="row d-flex justify-content-center">
             
         {getListUserResult ? (
-          getListUserResult.map((person) => {
+          getListUserResult.items.map((person) => {
             return (
               <>
                 {person.articles.slice(0).reverse().map((x) => {

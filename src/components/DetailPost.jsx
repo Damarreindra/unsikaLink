@@ -25,7 +25,7 @@ function DetailPosts() {
 
   useEffect(() => {
     if (getListUserResult) {
-      setData(getListUserResult);
+      setData(getListUserResult.items);
     }
   }, [getListUserResult]);
 
@@ -66,7 +66,7 @@ function DetailPosts() {
               .filter((e) => e.id === id)
               .map((x) => {
                 let createdAt = moment(x.createdAt).fromNow(true);
-               
+                let detailCreatedAt = moment(x.createdAt).format('MMMM Do YYYY, h:mm:ss a');
                 return (
                   <div>
                     <div
@@ -91,7 +91,7 @@ function DetailPosts() {
                         <p class="card-text">
                          {x.content}
                         </p>
-                        <i class="fa-solid fa-thumbs-up fa-1x"></i>
+                        <p className="text-muted mt-5" style={{fontSize:'12px'}}>{detailCreatedAt}</p>
                       </div>
                       <div class="card-footer bg-transparent border-success">
                         <form className="row g-3"
@@ -121,8 +121,9 @@ function DetailPosts() {
                         </form>
                   
                         {comments.filter((x)=>x.threadsId === +id)
-                       .slice(0).reverse().map((comment)=>{
+                         .slice(0).reverse().map((comment)=>{
                           let CommentCreatedAt = moment(comment.CommentCreatedAt).fromNow(true);
+                          
                           return(
                             <div class="card border-light mb-3 text-start">
                           <div className="card-header fs-6">
