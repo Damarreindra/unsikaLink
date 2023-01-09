@@ -6,6 +6,7 @@ import { SidebarData } from './SidebarData'
 import { Dropdown } from 'react-bootstrap'
 import './Sidebar.css'
 import AddPost from './AddPost'
+import AddPostProfile from './AddPost/AddPostProfile'
 
 function SidebarProfile() {
     const [sidebar, setSidebar] = useState(true)
@@ -51,7 +52,7 @@ function SidebarProfile() {
                 )
             })}
             <li id='add-post-btn'>
-                <AddPost/>
+                <AddPostProfile/>
             </li>
             <li>
             <Dropdown>

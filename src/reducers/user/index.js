@@ -1,4 +1,4 @@
-import { GET_LIST_USER, ADD_USER, ADD_POST, LOGOUT, UPDATE_PUBLISH, UNPUBLISH } from "../../actions/userAction"
+import { GET_LIST_USER, ADD_USER, ADD_POST, LOGOUT, UPDATE_PUBLISH, UNPUBLISH, ADD_POST_PROFILE } from "../../actions/userAction"
 
 const initialState = {
     getListUserResult: false,
@@ -12,6 +12,10 @@ const initialState = {
     addPostResult: false,
     addPostLoading: false,
     addPostError: false,
+
+    addPostProfileResult: false,
+    addPostProfileLoading: false,
+    addPostProfileError: false,
 
     LogoutResult: false,
 
@@ -51,6 +55,13 @@ const user = (state = initialState, action) =>{
                 addPostLoading: action.payload.loading,
                 addPostError: action.payload.errorMessage,
             }
+            case ADD_POST_PROFILE:
+                return{
+                    ...state,
+                    addPostProfileResult: action.payload.data,
+                    addPostProfileLoading: action.payload.loading,
+                    addPostProfileError: action.payload.errorMessage,
+                }
         
         case LOGOUT:
             return{

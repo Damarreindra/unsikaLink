@@ -6,6 +6,7 @@ import { useSelect } from "@mui/base";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { getListUser } from "../../actions/userAction";
+import { Link } from "react-router-dom";
 function RightBar() {
   const { getListUserResult } = useSelector((state)=> state.UserReducer)
   const [people, setPeople] = useState([])
@@ -84,24 +85,24 @@ function RightBar() {
           <div className="trending container">
             <h2 className="right-bar-title">Topics</h2>
            <div className="topics-list">
-            <div className="topic">
+            <Link to='/home/mental' className="topic">
               <div className="topic-container">
               <h4>Mental Health</h4>
               <span className="text-muted">{mentalLength} Tweed</span>
               </div>
-            </div>
-            <div className="topic">
+            </Link>
+            <Link to={'/home/politics'} className="topic">
             <div className="topic-container">
               <h4>Politics</h4>
               <span className="text-muted">{politicsLength} Tweed</span>
               </div>
-            </div>
-            <div className="topic">
+            </Link>
+            <Link to='/home/other' className="topic">
             <div className="topic-container">
               <h4>Other</h4>
               <span className="text-muted">{otherLength} Tweed</span>
               </div>
-            </div>
+            </Link>
            </div>
           </div>
           <div className="suggest container">
@@ -120,8 +121,10 @@ function RightBar() {
                     <img id="people-img" src={person.profile_img} alt="" />
                 <h4 id="people-text">{person.username}</h4>
                 
-                <button id="people-btn" className="btn btn-success mt-3">details</button>
-                
+                <div className="people-btn-container justify-content-end">
+                <button id="people-btn" className="btn btn-success mt-4">details</button>
+                </div>
+
                 </div>
                 </div>
               )

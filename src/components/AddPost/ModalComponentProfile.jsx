@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addPost, addPostProfile } from "../../actions/userAction";
 
 
-const ModalComponent = ({ show, HideHandler }) => {
+const ModalComponentProfile = ({ show, HideHandler }) => {
   const { addPostResult, addPostProfileResult } = useSelector(
     (state) => state.UserReducer
   );
@@ -26,7 +26,7 @@ const ModalComponent = ({ show, HideHandler }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      addPost({
+      addPostProfile({
         title: title,
         createdAt,
         content: content,
@@ -35,15 +35,15 @@ const ModalComponent = ({ show, HideHandler }) => {
     );
   };
 
-
   useEffect(() => {
-    if (addPostResult) {
+    if (addPostProfileResult) {
       dispatch(HideHandler);
       setTitle("");
       setContent("");
-      window.location='/home'
+      window.location=`/profile/${uid}`
     }
-  }, [addPostResult, dispatch]);
+  }, [addPostProfileResult, dispatch]);
+
 
   return (
     <div className="mt-5">
@@ -108,4 +108,4 @@ const ModalComponent = ({ show, HideHandler }) => {
   );
 };
 
-export default ModalComponent;
+export default ModalComponentProfile;

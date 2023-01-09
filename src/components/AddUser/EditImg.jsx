@@ -3,13 +3,14 @@ import { motion } from "framer-motion";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import "./AddImg.css";
-import { addProfileImg } from "../../actions/userAction";
+import { addProfileImg, editProfileImg } from "../../actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useSelect } from "@mui/base";
-function AddImg() {
+function EditImg() {
   const [image, setImage] = useState("");
   const uname = localStorage.getItem("uname");
   const uid = localStorage.getItem('id')
+  const pfp = localStorage.getItem('img')
   const dispatch = useDispatch();
   const { addProfileImgResult } = useSelector((state) => state.ImageReducer)
   
@@ -39,12 +40,12 @@ function AddImg() {
   
   
 
-  if(!url){
-    setUrl(defImg)
-  }
+  useEffect(()=>{
+    setUrl(pfp)
+  },[])
 
   const handleSubmit = () =>{
-    dispatch(addProfileImg({profile_img: url}))
+    dispatch(editProfileImg({profile_img: url}))
 }
   return (
     <div>
@@ -104,4 +105,4 @@ function AddImg() {
   );
 }
 
-export default AddImg;
+export default EditImg;

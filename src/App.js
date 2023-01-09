@@ -15,6 +15,7 @@ import Other from './pages/Other';
 import Profile from './pages/Profile';
 import AddImg from './components/AddUser/AddImg';
 import DetailPost from './pages/DetailPost';
+import EditImg from './components/AddUser/EditImg';
 function App() {
   return (
     <Router>
@@ -29,6 +30,7 @@ function App() {
      <Route path="/profile/:id" element={<Profile />}/>
      <Route path="/detail/:id" element={<DetailPost />}/>
      <Route path="/add-profile-pict" element={<AddImg />}/>
+     <Route path="/edit-profile-pict" element={<EditImg />}/>
      <Route path='/home'>
             <Route index element={<Home/>}/>
             <Route path='mental' element={<MentalHealth/>}/>

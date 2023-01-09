@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { getListUser } from "../../actions/userAction";
 import * as AiIcons from 'react-icons/ai'
 import moment from "moment/moment";
+import { Dropdown } from "react-bootstrap";
+import DropdownToggle from "react-bootstrap/esm/DropdownToggle";
 
 function ProfileSlider() {
     const [user,setUser] = useState([])
@@ -44,7 +46,16 @@ function ProfileSlider() {
                 <h2 id="profile-username">{user.username}</h2>
                 <p><AiIcons.AiFillCalendar/> Joined {moment(user.createdAt).format("MMM Do YY")}</p>
               </div>
-             <button id="btn-edit-profile" className="btn">Edit Profile</button>
+              <Dropdown>
+                <DropdownToggle variant="success">
+                  Edit Profile
+                </DropdownToggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item href="/edit-profile-pict">Edit Profile Pict</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            
             </div>
             </div>
         )
