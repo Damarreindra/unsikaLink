@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Footer() {
+function FooterLanding() {
   return (
     <div>
-        <section style={{marginLeft:'-25px'}} className="footer">
+        <section className="footer">
         <h5>Made By Damarreindra with &#10084;&#65039;</h5>
         
     </section>
@@ -11,4 +11,4 @@ function Footer() {
   )
 }
 
-export default Footer
+export default FooterLanding

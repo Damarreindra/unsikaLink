@@ -22,6 +22,7 @@ import moment from "moment";
 import MentalCards from "../components/Card/MentalCard";
 import Sidebar from "../components/Sidebar";
 import RightBar from "../components/RightBar/RightBar";
+import MentalSlider from "../components/Slider/MentalSlider";
 
 function MentalHealth() {
   const {
@@ -53,7 +54,7 @@ function MentalHealth() {
       <Sidebar />
       <RightBar />
       <div className="wrapper">
-        <Slider />
+        <MentalSlider />
         <MentalCards />
       </div>
       <Footer />

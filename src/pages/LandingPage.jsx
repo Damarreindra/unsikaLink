@@ -6,6 +6,7 @@ import Footer from '../components/Footer'
 import Sidebar from '../components/Sidebar'
 import { motion } from 'framer-motion'
 import Hero from '../components/Hero'
+import FooterLanding from '../components/FooterLanding'
 
 
 function LandingPage() {
@@ -13,14 +14,7 @@ function LandingPage() {
     <div>
         <NavbarLanding />
         <Hero/>
-        <div className="title-header">
-        <h4>ASEAN YOUTH FORUM</h4>
-        <p>Create a better world</p>
-        </div>
-        <Asean />
-        <h4 className="title-header">FIND INFORMATIONS</h4>
-        <Helps/>
-        <Footer/>
+        <FooterLanding/>
 
     </div>
   )

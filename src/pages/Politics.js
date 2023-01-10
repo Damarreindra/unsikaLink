@@ -7,6 +7,7 @@ import { Outlet } from 'react-router-dom';
 import PoliticCards from '../components/Card/PoliticCard'
 import Sidebar from '../components/Sidebar';
 import RightBar from '../components/RightBar/RightBar';
+import PoliticSlider from '../components/Slider/PoliticSlider';
 
 function Politics() {
 
@@ -35,7 +36,7 @@ function Politics() {
     <Sidebar />
     <RightBar/>
     <div className="wrapper">
-    <Slider/>
+    <PoliticSlider/>
     <PoliticCards/>
     </div>
     <Footer/>

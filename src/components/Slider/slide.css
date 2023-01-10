@@ -7,6 +7,10 @@
     height: 6rem;
     border-radius: 50%;
 }
+#jumbotron{
+    height: 250px;
+    margin-top: 80px;
+}
 #profile-username{
     font-weight: bolder;
 }

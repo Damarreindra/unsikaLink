@@ -22,6 +22,7 @@ import moment from "moment";
 import Sidebar from "../components/Sidebar";
 import RightBar from "../components/RightBar/RightBar";
 import OtherCards from "../components/Card/MentalCard";
+import OtherSlider from "../components/Slider/OtherSlider";
 
 function Other() {
   const {
@@ -53,7 +54,7 @@ function Other() {
       <Sidebar />
       <RightBar />
       <div className="wrapper">
-        <Slider />
+        <OtherSlider />
         <OtherCards />
       </div>
       <Footer />

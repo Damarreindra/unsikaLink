@@ -30,7 +30,7 @@ function CardProfile() {
     if (getListUserResult) {
       setUthreads(
         getListUserResult.items
-          .filter((e) => e.id === uid)
+          .filter((e) => e.id === id)
           .map((person) => person.articles.map((e) => e.title))
       );
     }
@@ -55,7 +55,7 @@ function CardProfile() {
           <div class="row d-flex justify-content-center">
             {getListUserResult ? (
               getListUserResult.items
-                .filter((e) => e.id === uid)
+                .filter((e) => e.id === id)
                 .map((person) => {
                   return (
                     <>

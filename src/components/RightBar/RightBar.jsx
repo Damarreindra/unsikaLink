@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { getListUser } from "../../actions/userAction";
 import { Link } from "react-router-dom";
+import { logDOM } from "@testing-library/react";
 function RightBar() {
   const { getListUserResult } = useSelector((state)=> state.UserReducer)
   const [people, setPeople] = useState([])
@@ -22,12 +23,7 @@ function RightBar() {
       setPeople(getListUserResult.items)
     }
   },[getListUserResult])
- 
- useEffect(()=>{
-  if(people){
-    setThreads(people.map((e)=>e.articles))
-  }
- },[getListUserResult])
+
  
  function removeElement(arr)
  {
@@ -62,27 +58,16 @@ function RightBar() {
   removeElement(politicsLength)
   removeElement(mentalLength)
   removeElement(otherLength)
+
+
+
   return (
     
     <>
       <aside>
         <div className="">
-        <div className='search-bar mx-auto'>
-        <Form>
-            <fieldset>
-              <Form.Group className="mb-3">
-                <Form.Control
-                  id="disabledTextInput"
-                  className="mt-3"
-                  placeholder="🔍 search"
-                />
-              </Form.Group>
-      
-            </fieldset>
-          </Form>
-          </div>
          
-          <div className="trending container">
+          <div className="trending container mt-3">
             <h2 className="right-bar-title">Topics</h2>
            <div className="topics-list">
             <Link to='/home/mental' className="topic">
@@ -121,9 +106,11 @@ function RightBar() {
                     <img id="people-img" src={person.profile_img} alt="" />
                 <h4 id="people-text">{person.username}</h4>
                 
-                <div className="people-btn-container justify-content-end">
+                <Link to={`/profile/${person.id}`} className="people-btn-container justify-content-end">
+                
                 <button id="people-btn" className="btn btn-success mt-4">details</button>
-                </div>
+                
+                </Link>
 
                 </div>
                 </div>

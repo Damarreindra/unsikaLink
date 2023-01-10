@@ -7,13 +7,12 @@ function UncontrolledExample() {
 
   return (
     <div className="banner">
-    <div
-      id="jumbotron"
-      className="p-5 rounded-08 shadow border-0 text-white d-flex justify-content-between rounded"
-      style={{ height: "250px", marginTop: "80px" }}
-    >
-      
-      <div id="text">
+      <div
+        id="jumbotron"
+        className="p-5 rounded-08 shadow border-0 text-white d-flex justify-content-between rounded"
+        style={{ height: "250px", marginTop: "80px" }}
+      >
+       <div id="text">
         <h1 style={{fontSize:'2rem'}}>Hi, {uname}</h1>
         <h2>Welcome to Tweeder</h2>
       </div>
@@ -25,7 +24,7 @@ function UncontrolledExample() {
           alt=""
         />
       </div>
-    </div>
+      </div>
     </div>
   );
 }
