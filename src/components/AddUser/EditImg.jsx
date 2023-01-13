@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
 import "./AddImg.css";
 import { addProfileImg, editProfileImg } from "../../actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
-import { useSelect } from "@mui/base";
+import { Backdrop, CircularProgress } from "@mui/material";
 function EditImg() {
   const [image, setImage] = useState("");
   const uname = localStorage.getItem("uname");
   const uid = localStorage.getItem('id')
   const pfp = localStorage.getItem('img')
+  const [open, setOpen] = useState(true)
+  
   const dispatch = useDispatch();
-  const { addProfileImgResult } = useSelector((state) => state.ImageReducer)
+
+   useEffect(()=>{
+    dispatch(addProfileImg())
+   },[dispatch])
+  const { addProfileImgResult, addProfileImgLoading } = useSelector((state) => state.ImageReducer)
   
   const [url, setUrl] = useState("");
   if (!uname) {
@@ -37,17 +42,30 @@ function EditImg() {
       })
       .catch((err) => console.log(err));
   };
-  
-  
 
-  useEffect(()=>{
-    setUrl(pfp)
-  },[])
+
+  useEffect(() => {
+    if (!url) {
+      setTimeout(() => {
+        setOpen(false)
+      }, 2000); // close after 2000ms
+    }
+  }, [url]);
 
   const handleSubmit = () =>{
     dispatch(editProfileImg({profile_img: url}))
 }
+console.log(addProfileImgLoading);
   return (
+    <>
+    {url ? 
+    <Backdrop
+    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={open}
+  >
+    <CircularProgress color="inherit" />
+  </Backdrop>
+   :     
     <div>
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
@@ -102,6 +120,9 @@ function EditImg() {
         </div>
       </motion.div>
     </div>
+    }
+
+    </>
   );
 }
 
