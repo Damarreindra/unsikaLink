@@ -14,57 +14,57 @@ function RightBar() {
   const [threads, setThreads] = useState([])
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getListUser());
-  }, [dispatch]);
+//   useEffect(() => {
+//     dispatch(getListUser());
+//   }, [dispatch]);
 
-  useEffect(()=>{
-    if(getListUserResult){
-      setPeople(getListUserResult.items)
-    }
-  },[getListUserResult])
+//   useEffect(()=>{
+//     if(getListUserResult){
+//       setPeople(getListUserResult.items)
+//     }
+//   },[getListUserResult])
 
  
- function removeElement(arr)
- {
-   for( var i = 0; i < arr.length; i++){ 
+//  function removeElement(arr)
+//  {
+//    for( var i = 0; i < arr.length; i++){ 
                                    
-        if ( arr[i] === 0) { 
-            arr.splice(i, 1); 
-            i--; 
-        }
-    }
-  }
+//         if ( arr[i] === 0) { 
+//             arr.splice(i, 1); 
+//             i--; 
+//         }
+//     }
+//   }
 
 
- const politicsLength = people.map((e)=>{
-  return(
-   e.articles.filter((x)=> x.theme === "politics").length
-  )
-  })
+//  const politicsLength = people.map((e)=>{
+//   return(
+//    e.articles.filter((x)=> x.theme === "politics").length
+//   )
+//   })
 
-  const mentalLength = people.map((e)=>{
-    return(
-      e.articles.filter((x)=> x.theme === "mental").length
-    )
-    })
+//   const mentalLength = people.map((e)=>{
+//     return(
+//       e.articles.filter((x)=> x.theme === "mental").length
+//     )
+//     })
 
-    const otherLength = people.map((e)=>{
-    return(
-     e.articles.filter((x)=> x.theme === "other").length
-    )
-    })
+//     const otherLength = people.map((e)=>{
+//     return(
+//      e.articles.filter((x)=> x.theme === "other").length
+//     )
+//     })
   
-  removeElement(politicsLength)
-  removeElement(mentalLength)
-  removeElement(otherLength)
+//   removeElement(politicsLength)
+//   removeElement(mentalLength)
+//   removeElement(otherLength)
 
 
 
   return (
     
     <>
-      <aside>
+      {/* <aside>
         <div className="">
          
           <div className="trending container mt-3">
@@ -119,7 +119,7 @@ function RightBar() {
           </div>
           </div>
         </div>
-      </aside>
+      </aside> */}
     </>
   );
 }

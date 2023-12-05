@@ -9,10 +9,14 @@ function AddUser() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role] = useState("user");
-  const { addUserResult } = useSelector((state) => state.UserReducer);
-  const createdAt = Date.now()
+  const [error, setError] = useState("");
+  const { addUserResult, addUserError } = useSelector(
+    (state) => state.UserReducer
+  );
 
+  const createdAt = Date.now();
   const dispatch = useDispatch();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -29,15 +33,17 @@ function AddUser() {
 
   useEffect(() => {
     if (addUserResult) {
-      alert("Akun Berhasil Dibuat");
-      window.location = "/add-profile-pict";
-      localStorage.setItem("token", addUserResult.username);
-      localStorage.setItem("id", addUserResult.id);
+      alert("Account Successfully Created");
+      window.location = "/login";
       setPassword("");
       setUsername("");
       setEmail("");
+    } else if (addUserError) {
+      setError(addUserError);
+   
+      setEmail("");
     }
-  }, [addUserResult]);
+  }, [addUserResult, addUserError]);
 
   return (
     <motion.div
@@ -99,18 +105,18 @@ function AddUser() {
                       onChange={(e) => setPassword(e.target.value)}
                       name="password"
                       id="pword"
-
                       placeholder="Password"
                       required
                     />
                     <label htmlFor="floatingPassword">Password</label>
                   </div>
+                  {error && <div className="alert alert-danger">{error}</div>}
                   <button type="submit" className="btn btn-success">
                     Register
                   </button>
                   <div className="container mt-3">
                     <h7>
-                      Already have account?{" "}
+                      Already have an account?{" "}
                       <Link
                         to="/login"
                         style={{ color: "green", textDecoration: "none" }}

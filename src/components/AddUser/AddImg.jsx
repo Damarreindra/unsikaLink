@@ -8,13 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSelect } from "@mui/base";
 function AddImg() {
   const [image, setImage] = useState("");
-  const uname = localStorage.getItem("uname");
-  const uid = localStorage.getItem('id')
+  const id = localStorage.getItem("USER_ID");
   const dispatch = useDispatch();
   const { addProfileImgResult } = useSelector((state) => state.ImageReducer)
   
   const [url, setUrl] = useState("");
-  if (!uname) {
+  if (!id) {
     window.location = "/404";
   }
 
@@ -67,7 +66,7 @@ function AddImg() {
                     alt=""
                     srcset=""
                   />
-                  <h5 className="card-title mb-3">{uname}</h5>
+                  {/* <h5 className="card-title mb-3">{uname}</h5> */}
                   <div action="" id="form">
                     
                     <div>

@@ -1,53 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../../actions/userAction";
-import { json, Link } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { parse } from "date-fns";
+import { login } from "../../actions/loginAction";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState(null); // New state variable
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios({
-      method: "GET",
-      url: "https://63496bd50b382d796c86192b.mockapi.io/users",
-      timeout: 120000,
-    }).then((res) => {
-      let users = res.data;
-      let cekData = users.items.find(
-        (x) => x.email === email && x.password === password
-      );
-      let token = users.requestId;
-      if (cekData) {
-        if (cekData.role === "admin") {
-          let stringLS = JSON.stringify(cekData);
-          let parsed = JSON.parse(stringLS);
-          localStorage.setItem("id", parsed.id);
-          localStorage.setItem("img", parsed.profile_img);
-          localStorage.setItem("uname", parsed.username);
 
-          window.location = "/admin";
-        } else {
-          let stringLS = JSON.stringify(cekData);
-          let stringToken = JSON.stringify(token);
-          let parsedToken = JSON.parse(stringToken);
+    try {
+      const res = await dispatch(login(email, password));
 
-          let parsed = JSON.parse(stringLS);
-
-          localStorage.setItem("token", parsedToken);
-          localStorage.setItem("id", parsed.id);
-          localStorage.setItem("img", parsed.profile_img);
-          localStorage.setItem("uname", parsed.username);
-          window.location = "/home";
-        }
+      if (res) {
+        console.log('Login successful');
+        navigate('/home');
       } else {
-        alert("INCORRECT LOGIN CREDENTIALS");
+        console.log('Login failed');
+        setLoginError('Invalid email or password'); // Set login error
       }
-    });
+    } catch (error) {
+      setLoginError("Email / Password False"); // Set login error
+    }
   };
 
   return (
@@ -72,7 +51,12 @@ function Login() {
                   Tweeder
                 </h2>
                 <h5 className="card-title mb-3">Login</h5>
-                <form action="" onSubmit={(e) => handleSubmit(e)} id="form">
+                {loginError && (
+                  <div className="alert alert-danger" role="alert">
+                    {loginError}
+                  </div>
+                )}
+                <form onSubmit={handleSubmit} id="form">
                   <div className="form-floating mb-3">
                     <input
                       type="email"
@@ -105,7 +89,7 @@ function Login() {
                   </button>
                   <div className="container mt-3">
                     <h7>
-                      Dont have account?{" "}
+                      Don't have an account?{" "}
                       <Link
                         to="/register"
                         style={{ color: "green", textDecoration: "none" }}

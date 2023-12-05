@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost, addPostProfile } from "../../actions/userAction";
+import { addPost,  } from "../../actions/userAction";
 
 
 const ModalComponent = ({ show, HideHandler }) => {
@@ -16,7 +16,7 @@ const ModalComponent = ({ show, HideHandler }) => {
       position: "bottom-left",
     });
 
-  const uid = localStorage.getItem('id')
+  const uid = localStorage.getItem('USER_ID')
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [theme, setTheme] = useState("");

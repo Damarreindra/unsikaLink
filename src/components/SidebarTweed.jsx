@@ -14,7 +14,7 @@ function SidebarTweed() {
     const activeLink = 'text-success'
     const normalLink = 'text-dark'
     const removeToken = () =>{
-        localStorage.removeItem('token')
+        localStorage.removeItem('USER_ID')
        }
     const showSidebar = () => setSidebar(!sidebar)
     const id = localStorage.getItem('id')

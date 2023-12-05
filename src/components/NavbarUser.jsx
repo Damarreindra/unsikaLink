@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Logout } from '../actions/userAction';
 import { motion } from 'framer-motion'
+import { logout } from '../actions/userAction'
 
 function NavbarUser() {
   const dispatch = useDispatch()
@@ -41,7 +41,7 @@ function NavbarUser() {
               <Link 
               to='/login'
               className="dropdown-item text-success" 
-              onClick={()=>dispatch(Logout())}
+              onClick={()=>dispatch(logout())}
               >Logout
               </Link>
             </li>

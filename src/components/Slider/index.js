@@ -1,9 +1,11 @@
 import Carousel from "react-bootstrap/Carousel";
 import "./slide.css";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 function UncontrolledExample() {
-  const uname = localStorage.getItem("uname");
+  const { getListUserResult } = useSelector((state) => state.UserReducer);
+  const username = getListUserResult.length > 0 ? getListUserResult[0].username : '';
 
   return (
     <div className="banner">
@@ -13,7 +15,7 @@ function UncontrolledExample() {
         style={{ height: "250px", marginTop: "80px" }}
       >
        <div id="text">
-        <h1 style={{fontSize:'2rem'}}>Hi, {uname}</h1>
+        <h1 style={{ fontSize: '2rem' }}>Hi, {username}</h1>
         <h2>Welcome to Tweeder</h2>
       </div>
       <div className="dark-overlay">

@@ -16,7 +16,7 @@ const ModalComponentProfile = ({ show, HideHandler }) => {
       position: "bottom-left",
     });
 
-  const uid = localStorage.getItem('id')
+  const uid = localStorage.getItem('USER_ID')
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [theme, setTheme] = useState("");

@@ -16,7 +16,7 @@ import Sidebar from '../components/Sidebar'
 import RightBar from '../components/RightBar/RightBar'
 
 function Home() {
-  const getToken = localStorage.getItem('token')
+  const getToken = localStorage.getItem('USER_ID')
   if(getToken === null){
     window.location='/login'
   }

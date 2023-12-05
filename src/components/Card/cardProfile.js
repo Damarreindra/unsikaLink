@@ -15,7 +15,7 @@ import "./card.css";
 import { useState } from "react";
 
 function CardProfile() {
-  const uid = localStorage.getItem("id");
+  const uid = localStorage.getItem("USER_ID");
   const [uthreads, setUthreads] = useState([]);
   const { id } = useParams();
   const { getListUserResult, getListUserLoading, getListUserError } =

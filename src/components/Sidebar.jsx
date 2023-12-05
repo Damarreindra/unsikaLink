@@ -12,7 +12,7 @@ function Sidebar() {
     const uname = localStorage.getItem('uname')
     const profileImg = localStorage.getItem('img')
    const removeToken = () =>{
-    localStorage.removeItem('token')
+    localStorage.removeItem('USER_ID')
    }
     const activeLink = 'text-success'
     const normalLink = 'text-dark'

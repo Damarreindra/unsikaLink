@@ -12,114 +12,126 @@ import { motion } from "framer-motion";
 import Button from "react-bootstrap/Button";
 import moment from "moment";
 import './card.css'
+import { getThreads } from "../../actions/threadsAction";
+
+
+// ... (imports)
+
 function Cards() {
   const {
-    getListUserResult,
-    getListUserLoading,
-    getListUserError,
     updatePublishResult,
     unPublishResult,
   } = useSelector((state) => state.UserReducer);
+  
+  const {
+    getThreadResult,
+    getThreadError,
+    getThreadLoading
+  } = useSelector((state) => state.ThreadsReducer);
+  
   const dispatch = useDispatch();
+  const navigation = useNavigate();
 
   useEffect(() => {
-    dispatch(getListUser());
+    dispatch(getThreads());
   }, [dispatch]);
- 
+
   useEffect(() => {
-    if (updatePublish) {
+    if (updatePublishResult) {
+      console.log('Publish update successful');
       dispatch(getListUser());
     }
   }, [updatePublishResult, dispatch]);
 
   useEffect(() => {
-    if (unPublish) {
+    if (unPublishResult) {
+      console.log('Unpublish successful');
       dispatch(getListUser());
     }
   }, [unPublishResult, dispatch]);
-  const navigation = useNavigate();
-  const handleDetail = (id) =>{
-navigation(`/detail/${id}`)
-  }
-  
+
+  const handleDetail = (id) => {
+    navigation(`/detail/${id}`);
+  };
+
+  const handleUpdatePublish = (threadId) => {
+    dispatch(updatePublish(threadId));
+  };
+
+  const handleUnPublish = (threadId) => {
+    dispatch(unPublish(threadId));
+  };
+
   return (
     <>
-    
       <motion.div
         className="container"
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1 }}
       >
-         <div className="threads-container py-5">
-          <div class="row d-flex justify-content-center">
-            
-        {getListUserResult ? (
-          getListUserResult.items.map((person) => {
-            return (
-              <>
-                {person.articles.slice(0).reverse().map((x) => {
-                  let createdAt = moment(x.createdAt).fromNow(true);
-                 
-                    return (
-                      <>
-                     
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                        className="col-lg-12 col-md-12 d-flex justify-content-center mt-3"
-                      
+        <div className="threads-container py-5">
+          <div className="row d-flex justify-content-center">
+            {getThreadResult ? (
+              getThreadResult
+                .slice()
+                .sort((a, b) => b.createdAt - a.createdAt) // Sort by createdAt in descending order
+                .map((thread) => {
+                  let createdAt = moment(thread.createdAt).fromNow(true);
+                  return (
+                    <motion.div
+                      key={thread.id}
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 1 }}
+                      className="col-lg-12 col-md-12 d-flex justify-content-center mt-3"
+                    >
+                      <Card
+                        className="card rounded-08 shadow border-0 p-2"
+                        style={{ width: "24rem" }}
                       >
-                        <Card
-                          className="card rounded-08 shadow border-0 p-2"
-                          style={{  width: "24rem" }}
-                    
-                        >
-                          <Card.Body>
-                            <div id="title-container">
-                            <Card.Title><img id="card_img" src={person.profile_img} alt="" /> {person.username}</Card.Title>
-                            <Card.Subtitle className="mt-2" id="title-divider">.</Card.Subtitle>
-                            <Card.Subtitle className="card-date mt-3 text-muted">
-                             {createdAt} ago
-                            </Card.Subtitle>
-                            </div>
-                           
-                            <Button
-                              id="cat"
-                              className="btn-sm"
-                              variant="success"
+                        <Card.Body>
+                          <div id="title-container">
+                            <Card.Title>{thread.author}</Card.Title>
+                            <Card.Subtitle
+                              className="mt-2"
+                              id="title-divider"
                             >
-                              {x.theme}
-                            </Button>
-                            <Card.Text>
-                              <h5>{x.title}</h5>
-                            </Card.Text>
-                          </Card.Body>
+                              .
+                            </Card.Subtitle>
+                            <Card.Subtitle className="card-date mt-3 text-muted">
+                              {createdAt} ago
+                            </Card.Subtitle>
+                          </div>
                           <Button
+                            id="cat"
+                            className="btn-sm"
                             variant="success"
-                            onClick={() => handleDetail(x.id)}
                           >
-                            See Details
+                            {thread.theme}
                           </Button>
-                        </Card>
-                      </motion.div>
-                    </>
-                    );
-                  
-                })}
-             </>
-            );
-          })
-        ) : getListUserLoading ? (
-          //  <p>Loading....</p>
-          <div className="container text-center justify-content-center mt-5">
-            <BorderExample />
+                          <Card.Text>
+                            <h5>{thread.title}</h5>
+                          </Card.Text>
+                        </Card.Body>
+                        <Button
+                          variant="success"
+                          onClick={() => handleDetail(thread.id)}
+                        >
+                          See Details
+                        </Button>
+                      </Card>
+                    </motion.div>
+                  );
+                })
+            ) : getThreadLoading ? (
+              <div className="container text-center justify-content-center mt-5">
+                <BorderExample />
+              </div>
+            ) : (
+              <p>{getThreadError ? getThreadError : "DATA KOSONG"}</p>
+            )}
           </div>
-        ) : (
-          <p>{getListUserError ? getListUserError : "DATA KOSONG"}</p>
-        )}
-        </div>
         </div>
       </motion.div>
     </>

@@ -3,7 +3,7 @@ import * as IoIcons from 'react-icons/io'
 import * as CgIcons from 'react-icons/cg'
 import * as AiIcons from 'react-icons/ai'
 
-const id = localStorage.getItem('id')
+const id = localStorage.getItem('USER_ID')
 
 export const SidebarData = 
 

@@ -12,7 +12,7 @@ const AddPost = () => {
   const HandleShowModal = () => {
     setIsModalShow(!isModalShow);
   };
-  const getLS = localStorage.getItem("id")
+  const getLS = localStorage.getItem("USER_ID")
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [publish] = useState(false)
