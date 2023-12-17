@@ -1,165 +1,205 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import Card from "react-bootstrap/Card";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  getListUser,
+  updatePublish,
+  unPublish,
+  addComment,
+} from "../actions/userAction";
+import { useNavigate, useParams } from "react-router-dom";
+import BorderExample from "./Spinner";
+import { motion } from "framer-motion";
+import Button from "react-bootstrap/Button";
 import moment from "moment";
-import { getListUser, getComments, addComment } from "../actions/userAction";
-function DetailPosts() {
-  const { id } = useParams();
-  const [data, setData] = useState([]);
-  const uname = localStorage.getItem('uname')
-  const [comments, setComments] = useState([]);
-  const profileImg = localStorage.getItem('img')
-  const [comment, setComment] = useState("");
-  const CommentsCreatedAt = Date.now()
-  const { getListUserResult } = useSelector((state) => state.UserReducer);
-  const { getCommentsResult, addCommentResult } = useSelector((state) => state.CommentReducer);
+import "./Card/card.css";
+import { getThreads } from "./../actions/threadsAction";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+function DetailPost() {
+  const { updatePublishResult, unPublishResult } = useSelector(
+    (state) => state.UserReducer
+  );
+  const [comment, setComment] = useState([]);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in.
+        setUser(user);
+      } else {
+        // No user is signed in.
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const { getThreadResult, getThreadError, getThreadLoading } = useSelector(
+    (state) => state.ThreadsReducer
+  );
+
   const dispatch = useDispatch();
+  const navigation = useNavigate();
+  const { id } = useParams();
+
   useEffect(() => {
-    dispatch(getListUser());
+    dispatch(getThreads());
   }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getComments());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (getListUserResult) {
-      setData(getListUserResult.items);
-    }
-  }, [getListUserResult]);
-
-  useEffect(() => {
-    if (getCommentsResult) {
-      setComments(getCommentsResult);
-    }
-  }, [getCommentsResult]);
-
-  useEffect(() => {
-    if (addCommentResult) {
-      dispatch(getComments());
-      setComment("");
-    }
-  }, [addCommentResult, dispatch]);
 
   const handleSubmit = (e) => {
+    const loggedInUsername = user.displayName;
+    const photoUrl = user.photoURL
     e.preventDefault();
     dispatch(
-      addComment(
-        {
-          comment: comment,
-          threadsId: +id,
-          username: uname,
-          CommentCreatedAt: CommentsCreatedAt,
-          profile_img: profileImg
-        }
-      )
+      addComment(id, {
+        comment: comment,
+        username: loggedInUsername,
+        photoUrl: photoUrl,
+        CommentCreatedAt: Date.now(),
+      })
     );
   };
-  
-  return (
-    <div id="detail-container">
-      {data.map((person) => {
-        return (
-          <>
-            {person.articles
-              .filter((e) => e.id === id)
-              .map((x) => {
-                let createdAt = moment(x.createdAt).fromNow(true);
-                let detailCreatedAt = moment(x.createdAt).format('MMMM Do YYYY, h:mm:ss a');
-                return (
-                  <div>
-                    <div
-                      class="card border-0 mb-3 mt-5 shadow p-3 mb-5 bg-body rounded"
-                      id="detail"
-                    >
-                      <div class="card-header bg-transparent border-success">
-                        <div className="user">
-                          <img
-                            src={person.profile_img}
-                            alt=""
-                          />
-                          <div className="user-meta">
-                            <div className="name">{person.username}</div>
-                            <div className="time">{createdAt} ago</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card-body text-brand text-start">
-                    
-                        <h3 class="card-title">{x.title}</h3>
-                        <p class="card-text">
-                         {x.content}
-                        </p>
-                        <p className="text-muted mt-5" style={{fontSize:'12px'}}>{detailCreatedAt}</p>
-                      </div>
-                      <div class="card-footer bg-transparent border-success">
-                        <form className="row g-3"
-                        onSubmit={(e) => handleSubmit(e)}
-                        >
+  console.log(getThreadResult);
 
-                          <div class="form-floating">
-                          <textarea
-                            className="form-control"
-                            placeholder="Leave a comment here"
-                            id="floatingTextarea"
-                            required
-                            maxLength={30}
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                          ></textarea>
-                            <label for="floatingTextarea">Comments</label>
-                          </div>
-                          <div className="col-auto">
-                            <button
-                              type="submit"
-                              className="btn btn-success mb-3 btn-sm"
-                            >
-                              Post
-                            </button>
-                          </div>
-                        </form>
-                  
-                        {comments.filter((x)=>x.threadsId === +id)
-                         .slice(0).reverse().map((comment)=>{
-                          let CommentCreatedAt = moment(comment.CommentCreatedAt).fromNow(true);
-                          
-                          return(
-                            <div class="card border-light mb-3 text-start">
-                          <div className="card-header fs-6">
-                            <div className="user">
-                              <img
-                                src={comment.profile_img}
-                                alt=""
-                              />
-                              <div className="user-meta">
-                                <div className="name">{comment.username}</div>
-                                <div className="time">{CommentCreatedAt} ago</div>
+  return (
+    <>
+      <motion.div
+        className="container"
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <div className="threads-container py-5 mt-5">
+          <div className="row d-flex justify-content-center">
+            {getThreadResult ? (
+              getThreadResult
+                .filter((thread) => thread.uid === id)
+                .slice()
+                .sort((a, b) => b.createdAt - a.createdAt)
+                .map((thread) => {
+                  let createdAt = moment(thread.createdAt).fromNow(true);
+                  return (
+                    <motion.div
+                      key={thread.id}
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 1 }}
+                      className="col-lg-12 col-md-12 d-flex justify-content-center mt-2"
+                    >
+                      <Card
+                        className="card rounded-4 border-0 shadow p-2"
+                        style={{ width: "80%", borderColor: "#D9D9D9" }}
+                      >
+                        <Card.Body>
+                          <div className="d-flex justify-content-between">
+                          <div className="d-flex align-items-center"> 
+                              {thread.author.photoURL && (
+                                <img
+                                  src={thread.author.photoURL}
+                                  alt="User Avatar"
+                                  className="rounded-circle me-2"
+                                  style={{ width: "32px", height: "32px" }}
+                                />
+                              )}
+                              <div className="mt-2">
+                                <Card.Title>{thread.author.displayName}</Card.Title>
+                                <Card.Subtitle
+                                  className="mt-2"
+                                  id="title-divider"
+                                ></Card.Subtitle>
                               </div>
                             </div>
+                            <div className="text-muted">
+                              <Card.Subtitle className="card-date mt-3">
+                                {createdAt} ago
+                              </Card.Subtitle>
+                            </div>
                           </div>
-
-                          <div class="card-body">
-                            <p class="card-text">
-                              {comment.comment}
-                            </p>
+                          <div className="text-muted mt-3">
+                            <Card.Subtitle className="card-date mb-3">
+                              {thread.theme}
+                            </Card.Subtitle>
                           </div>
+                          <Card.Text>
+                            <h2 className="fw-bold">{thread.title}</h2>
+                          </Card.Text>
+                          <Card.Text>
+                            <h5>{thread.content}</h5>
+                          </Card.Text>
+                        </Card.Body>
+                        <div className="container">
+                          <form
+                            className="row g-3"
+                            onSubmit={(e) => handleSubmit(e)}
+                          >
+                            <div class="form-floating">
+                              <textarea
+                                className="form-control"
+                                placeholder="Leave a comment here"
+                                id="floatingTextarea"
+                                required
+                                maxLength={30}
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                              ></textarea>
+                              <label for="floatingTextarea">Comments</label>
+                            </div>
+                            <div className="col-auto">
+                              <button
+                                type="submit"
+                                className="btn btn-info mb-3 btn-sm"
+                              >
+                                Comment
+                              </button>
+                            </div>
+                          </form>
                         </div>
-                          )
-                        })
-                        }
-
-                        
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-          </>
-        );
-      })}
+                        <div className="p-5 d-flex flex-column align-item-center">
+  {thread.comments && thread.comments.map((comment) => (
+    <div
+      key={comment.CommentCreatedAt}
+      className="comment-container border rounded p-2 mt-3 position-relative"
+    >
+      <div className="d-flex align-items-start">
+        {comment.photoUrl && (
+          <img
+            src={comment.photoUrl}
+            alt="User Avatar"
+            className="rounded-circle me-2"
+            style={{ width: "32px", height: "32px" }}
+          />
+        )}
+        <p className="fw-bold mt-1">{comment.username}</p>
+        <small className="text-muted ms-auto">
+          {moment(comment.CommentCreatedAt).fromNow(true)} ago
+        </small>
+      </div>
+      <p className="mt-1">{comment.comment}</p>
     </div>
+  ))}
+</div>
+
+
+                      </Card>
+                    </motion.div>
+                  );
+                })
+            ) : getThreadLoading ? (
+              <div className="container text-center justify-content-center mt-5">
+                <BorderExample />
+              </div>
+            ) : (
+              <p>{getThreadError ? getThreadError : "DATA KOSONG"}</p>
+            )}
+          </div>
+        </div>
+      </motion.div>
+    </>
   );
 }
 
-export default DetailPosts;
+export default DetailPost;

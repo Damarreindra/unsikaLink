@@ -1,65 +1,52 @@
 import Card from "react-bootstrap/Card";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getListUser,
-  updatePublish,
-  unPublish,
-} from "../../actions/userAction";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BorderExample from "../Spinner";
 import { motion } from "framer-motion";
 import Button from "react-bootstrap/Button";
 import moment from "moment";
-import './card.css'
 import { getThreads } from "../../actions/threadsAction";
-
-
-// ... (imports)
+import { FaRegComment } from "react-icons/fa";
+import { addComment, getComments } from "../../actions/userAction";
 
 function Cards() {
-  const {
-    updatePublishResult,
-    unPublishResult,
-  } = useSelector((state) => state.UserReducer);
-  
-  const {
-    getThreadResult,
-    getThreadError,
-    getThreadLoading
-  } = useSelector((state) => state.ThreadsReducer);
-  
+  const [commentsCount, setCommentsCount] = useState({});
+
   const dispatch = useDispatch();
   const navigation = useNavigate();
+
+  const { getThreadResult, getThreadError, getThreadLoading } = useSelector(
+    (state) => state.ThreadsReducer
+  );
 
   useEffect(() => {
     dispatch(getThreads());
   }, [dispatch]);
 
   useEffect(() => {
-    if (updatePublishResult) {
-      console.log('Publish update successful');
-      dispatch(getListUser());
-    }
-  }, [updatePublishResult, dispatch]);
+    const fetchData = async () => {
+      if (getThreadResult) {
+        const counts = {};
 
-  useEffect(() => {
-    if (unPublishResult) {
-      console.log('Unpublish successful');
-      dispatch(getListUser());
-    }
-  }, [unPublishResult, dispatch]);
+        for (const thread of getThreadResult) {
+          const comments = await fetchCommentsByThreadId(thread.id);
+          counts[thread.id] = comments.length;
+        }
+
+        setCommentsCount(counts);
+      }
+    };
+
+    fetchData();
+  }, [getThreadResult]);
+
+  const fetchCommentsByThreadId = async (threadId) => {
+    return [];
+  };
 
   const handleDetail = (id) => {
     navigation(`/detail/${id}`);
-  };
-
-  const handleUpdatePublish = (threadId) => {
-    dispatch(updatePublish(threadId));
-  };
-
-  const handleUnPublish = (threadId) => {
-    dispatch(unPublish(threadId));
   };
 
   return (
@@ -70,7 +57,7 @@ function Cards() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className="threads-container py-5">
+        <div className="threads-container py-5 mt-5">
           <div className="row d-flex justify-content-center">
             {getThreadResult ? (
               getThreadResult
@@ -84,42 +71,55 @@ function Cards() {
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 1 }}
-                      className="col-lg-12 col-md-12 d-flex justify-content-center mt-3"
+                      className="col-lg-12 col-md-12 d-flex justify-content-center mt-2"
                     >
                       <Card
-                        className="card rounded-08 shadow border-0 p-2"
-                        style={{ width: "24rem" }}
+                        onClick={() => handleDetail(thread.uid)}
+                        className="card rounded-4 border-0 shadow p-2"
+                        style={{ width: "80%", borderColor: "#D9D9D9" }}
                       >
                         <Card.Body>
-                          <div id="title-container">
-                            <Card.Title>{thread.author}</Card.Title>
-                            <Card.Subtitle
-                              className="mt-2"
-                              id="title-divider"
-                            >
-                              .
-                            </Card.Subtitle>
-                            <Card.Subtitle className="card-date mt-3 text-muted">
-                              {createdAt} ago
+                          <div className="d-flex justify-content-between">
+                            <div id="title-container">
+                            <div className="d-flex align-items-center"> {/* Add this div for image and display name */}
+                              {thread.author.photoURL && (
+                                <img
+                                  src={thread.author.photoURL}
+                                  alt="User Avatar"
+                                  className="rounded-circle me-2"
+                                  style={{ width: "32px", height: "32px" }}
+                                />
+                              )}
+                              <div>
+                                <Card.Title>{thread.author.displayName}</Card.Title>
+                                <Card.Subtitle
+                                  className="mt-2"
+                                  id="title-divider"
+                                ></Card.Subtitle>
+                              </div>
+                            </div>
+                            </div>
+                            <div className="text-muted">
+                              <Card.Subtitle className="card-date mt-3">
+                                {createdAt} ago
+                              </Card.Subtitle>
+                            </div>
+                          </div>
+                          <div className="text-muted mt-3">
+                            <Card.Subtitle className="card-date mb-3">
+                              {thread.theme}
                             </Card.Subtitle>
                           </div>
-                          <Button
-                            id="cat"
-                            className="btn-sm"
-                            variant="success"
-                          >
-                            {thread.theme}
-                          </Button>
                           <Card.Text>
-                            <h5>{thread.title}</h5>
+                            <h2 className="fw-bold">{thread.title}</h2>
                           </Card.Text>
+                          <Card.Text>
+                            <h5>{thread.content}</h5>
+                          </Card.Text>
+                          <small className="text-muted">
+                            <FaRegComment /> {commentsCount[thread.id]}
+                          </small>
                         </Card.Body>
-                        <Button
-                          variant="success"
-                          onClick={() => handleDetail(thread.id)}
-                        >
-                          See Details
-                        </Button>
                       </Card>
                     </motion.div>
                   );

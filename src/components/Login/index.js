@@ -22,10 +22,10 @@ function Login() {
         navigate('/home');
       } else {
         console.log('Login failed');
-        setLoginError('Invalid email or password'); // Set login error
+        setLoginError('Invalid email or password'); 
       }
     } catch (error) {
-      setLoginError("Email / Password False"); // Set login error
+      setLoginError("Email / Password Salah"); 
     }
   };
 
@@ -34,30 +34,30 @@ function Login() {
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
+      style={{
+        backgroundImage: `url(/images/bg_login.png)`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+      }}
     >
-      <div className="container mt-5 col-md-7">
-        <div className="card mb-4">
+      <div className="container bg-white p-5 rounded col-md-5">
           <div className="row g-0">
-            <div className="col-md-6 d-none d-md-block">
-              <img
-                src="images/tangga.jpg"
-                className="img-fluid rounded-start"
-                alt="..."
-              />
-            </div>
-            <div className="col-md-6 mx-auto">
-              <div className="card-body text-center">
-                <h2 className="card-title border-bottom mb-4 text-success">
-                  Tweeder
+            <div className="col-md-12 mx-auto">
+              <div className="card-body ">
+                <h2 style={{color:'#051334'}} className="card-title fw-bold mb-4">
+                Welcome Back
                 </h2>
-                <h5 className="card-title mb-3">Login</h5>
                 {loginError && (
                   <div className="alert alert-danger" role="alert">
                     {loginError}
                   </div>
                 )}
                 <form onSubmit={handleSubmit} id="form">
-                  <div className="form-floating mb-3">
+                  <div className="form-floating mb-3 text-center">
                     <input
                       type="email"
                       className="form-control"
@@ -84,15 +84,18 @@ function Login() {
                     />
                     <label htmlFor="floatingPassword">Password</label>
                   </div>
-                  <button type="submit" className="btn btn-success">
+                  <button type="submit" className="btn w-100"
+                  style={{background:'#051334', color:"white"}}
+                  >
                     Login
                   </button>
-                  <div className="container mt-3">
+                  <div className="container mt-3 text-center">
                     <h7>
                       Don't have an account?{" "}
                       <Link
                         to="/register"
-                        style={{ color: "green", textDecoration: "none" }}
+                        className="fw-bold"
+                        style={{ color:'#051334', textDecoration: "none" }}
                       >
                         Register
                       </Link>
@@ -102,7 +105,6 @@ function Login() {
               </div>
             </div>
           </div>
-        </div>
       </div>
     </motion.div>
   );

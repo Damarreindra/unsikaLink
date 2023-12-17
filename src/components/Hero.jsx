@@ -7,24 +7,27 @@ function Hero() {
       <section
         id="hero"
         className="min-vh-100 d-flex align-items-center text-start"
+        style={{color:'#051334'}}
       >
         <div className="container">
           <div className="row">
-            <div className="col-12">
+            <div className="col-12"
+            >
               <h1
-                style={{ fontSize: "4rem" }}
-                className="fw-bolder text-success"
+                style={{ fontSize: "4rem", color:'#051334' }}
+                className="fw-bolder "
+                
               >
-                The Social Media that just works
+                Bagikan Tentang Karir Disini
               </h1>
               <h5
-                style={{ fontSize: "2rem" }}
+                style={{ fontSize: "2rem", color:'#051334' }}
                 className="fw-bolder text-center"
               >
                 Go further with us!
               </h5>
-              <div className="container mt-5 d-flex justify-content-center">
-                <Link class="btn btn-success" to={"/register"} role="button">
+              <div className="container mt-5 d-flex justify-content-center"  >
+                <Link style={{background:'#051334'}} className="btn btn-success" to={"/register"} role="button">
                   Register Now
                 </Link>
               </div>

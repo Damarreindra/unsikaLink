@@ -1,18 +1,4 @@
 
-.navbar{
-    height: 80px;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    overflow: hidden;
-    transition: 0.4s;
-    background-color: #fff;
-    opacity: 0.8;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 4
-}
 #btn-logout{
     width: 12rem;
     height: 3rem;
@@ -33,17 +19,18 @@
     justify-content: center;
     border-style:solid;
     border-top: 0;
-    border-width: 0.2;
-    border-color: #F9F6EE;
+    border-left: 0;
+    border-width: 0.2px;
+    border-color: #D9D9D9;
     position: fixed;
     top: 0;
-    left: -100%;
     transition: 850ms;
     z-index: 5;
 }
 
 #add-post-btn{
     list-style: none;
+    background: #053444;
 }
 #disabledTextInput{
     background-color: #E2DFD2;
@@ -51,7 +38,7 @@
     border: none;
     }
 .nav-menu.active{
-    left: 0;
+    
     transition: 350ms;
 }
 #profile-info{

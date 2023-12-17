@@ -4,125 +4,117 @@ aside {
   background-color: #fff;
   border-style: solid;
   border-top: 0;
-  border-width: 0.2;
-  border-color: #F9F6EE;
+  border-right: 0;
+  border-width: 0.2px;
+  border-color: #d9d9d9;
   position: fixed;
   z-index: 5;
-  right: 0;
 }
 
 .search-bar {
-  width: 350px;
+  width: 100%; /* Make the search bar take up the full width */
 }
 
 .trending {
-  width: 360px;
+  width: 100%; /* Make the trending container take up the full width */
+  max-width: 360px; /* Set a maximum width for larger screens */
   height: 350px;
-  background-color: #F9F6EE;
+  background-color: transparent;
   border-radius: 20px;
+  border: #d9d9d9 solid 0.2px;
 }
-.topics-list{
-list-style: none; 
-position: absolute;
-margin-top: 4rem;
-margin-left: -11.8px;
-display: flex;
-flex-direction: column;
+
+.topics-list {
+  list-style: none;
+  position: absolute;
+  margin-top: 4rem;
+  margin-left: -11.8px;
+  display: flex;
+  flex-direction: column;
 }
+
 .suggest {
-  width: 360px;
+  width: 100%; /* Make the suggest container take up the full width */
+  max-width: 360px; /* Set a maximum width for larger screens */
   height: 250px;
-  background-color: #F9F6EE;
+  background-color: #f9f6ee;
   border-radius: 20px;
   margin-top: 16px;
 }
-#people-text{
-  font-size: 16px;
-}
-.right-bar-title{
+
+.right-bar-title {
   font-size: 1.5em;
   margin-top: 1rem;
-  font-weight: bold;
   position: absolute;
 }
-.search-result{
-  width: 350px;
-  background-color: #F9F6EE;
+
+.search-result {
+  width: 100%; /* Make the search result take up the full width */
+  max-width: 350px; /* Set a maximum width for larger screens */
+  background-color: #f9f6ee;
   height: 200px;
   border-radius: 20px;
   margin-top: -15px;
 }
-.topic{
+
+.topic {
   height: 80px;
-  width: 360px;
   display: flex;
   text-decoration: none;
   color: black;
   align-items: center;
 }
-.topic:hover{
-  color: #198754;
-}
-.people{
-  height: 50px;
-  width: 360px;
-  display: flex;
-  align-items: center;
-}
-#people-text{
-  margin-left: 20px;
-}
-.topic h4{
-  margin-left: 20px;
-}
-.topic:hover{
+
+.topic:hover {
   background-color: #fff;
-}
-.people:hover{
-  background-color: #fff;
-}
-#people-img{
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    margin-top: 2px;
-    margin-left: 20px;
-}
-#people-btn{
-  position: absolute;
-}
-.people-container{
-  display: flex;
-  align-items: center;
-  width: 360px;
-}
-.people-btn-container{
-  display: flex;
-  align-items: center;
-  width: 250px;
 }
 
-/* @media (max-width:768px){
-  aside{
-    display: none;
-  }
-  .threads-container{
-    margin-left: 0px;
-  }
-  .banner{
-    margin: 10px 10px;
-    width: 250px;
-  }
-  #jumbotron{
-    padding: 0;
-    width: 350px;
-  }
-  #img-jumbotron{
-    width: 150px;
-    margin-left: -50px;
-    
-  }
-  .nav-menu{
-    display: none;
-  }
-} */
+.people {
+  height: 50px;
+  width: 100%; /* Make the people container take up the full width */
+  max-width: 360px; /* Set a maximum width for larger screens */
+  display: flex;
+  align-items: center;
+}
+
+#people-text {
+  margin-left: 20px;
+}
+
+.topic h4 {
+  margin-left: 20px;
+}
+
+.topic:hover {
+  background-color: #fff;
+}
+
+.people:hover {
+  background-color: #fff;
+}
+
+#people-img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-top: 2px;
+  margin-left: 20px;
+}
+
+#people-btn {
+  position: absolute;
+}
+
+.people-container {
+  display: flex;
+  align-items: center;
+  width: 100%; /* Make the people container take up the full width */
+  max-width: 360px; /* Set a maximum width for larger screens */
+}
+
+.people-btn-container {
+  display: flex;
+  align-items: center;
+  width: 100%; /* Make the button container take up the full width */
+  max-width: 250px; /* Set a maximum width for larger screens */
+}

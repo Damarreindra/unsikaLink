@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import * as FaIcons from 'react-icons/fa'
 import * as AiIcons from 'react-icons/ai'
-import { SidebarData } from './SidebarData'
+import { SidebarDataMain } from './SidebarDataMain'
 import { Dropdown } from 'react-bootstrap'
 import './Sidebar.css'
 import AddPost from './AddPost'
@@ -36,7 +36,7 @@ function SidebarTweed() {
                     <AiIcons.AiOutlineClose/>
                 </Link>
             </li>
-            {SidebarData.map((item, index)=>{
+            {SidebarDataMain.map((item, index)=>{
                 return(
                     <li key={index} className={item.cName}>
                         <NavLink to={item.path}

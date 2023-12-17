@@ -1,3 +1,4 @@
+import Card from "react-bootstrap/Card";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -5,148 +6,141 @@ import {
   updatePublish,
   unPublish,
 } from "../../actions/userAction";
-import BorderExample from "../Spinner";
-import Button from "react-bootstrap/Button";
-import { motion } from "framer-motion";
-import moment from "moment";
 import { useNavigate, useParams } from "react-router-dom";
-import Card from "react-bootstrap/Card";
-import "./card.css";
-import { useState } from "react";
+import BorderExample from "../Spinner";
+import { motion } from "framer-motion";
+import Button from "react-bootstrap/Button";
+import moment from "moment";
+import './card.css'
+import { getThreads } from "../../actions/threadsAction";
+
+
+
 
 function CardProfile() {
-  const uid = localStorage.getItem("USER_ID");
-  const [uthreads, setUthreads] = useState([]);
-  const { id } = useParams();
-  const { getListUserResult, getListUserLoading, getListUserError } =
-    useSelector((state) => state.UserReducer);
+  const { updatePublishResult, unPublishResult } = useSelector(
+    (state) => state.UserReducer
+  );
+
+  const {
+    getThreadResult,
+    getThreadError,
+    getThreadLoading
+  } = useSelector((state) => state.ThreadsReducer);
+
   const dispatch = useDispatch();
+  const navigation = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
-    dispatch(getListUser());
+    dispatch(getThreads());
   }, [dispatch]);
 
   useEffect(() => {
-    if (getListUserResult) {
-      setUthreads(
-        getListUserResult.items
-          .filter((e) => e.id === id)
-          .map((person) => person.articles.map((e) => e.title))
-      );
+    if (updatePublishResult) {
+      console.log("Publish update successful");
+      dispatch(getListUser());
     }
-  }, [getListUserResult]);
+  }, [updatePublishResult, dispatch]);
 
-  console.log(uthreads.find((e)=>e.title));
+  useEffect(() => {
+    if (unPublishResult) {
+      console.log("Unpublish successful");
+      dispatch(getListUser());
+    }
+  }, [unPublishResult, dispatch]);
 
-  const navigation = useNavigate();
   const handleDetail = (id) => {
     navigation(`/detail/${id}`);
   };
 
   return (
     <>
-      <motion.div
-        className="container"
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <div className="threads-container py-5">
-          <div class="row d-flex justify-content-center">
-            {getListUserResult ? (
-              getListUserResult.items
-                .filter((e) => e.id === id)
-                .map((person) => {
-                  return (
-                    <>
-                      
-                     
-                      <div className="container mt-5 mb-3 mx-auto text-center">
-                        <div
-                          style={{ marginTop: "0px" }}
-                          className="text-dark"
-                        >
-                          
-                          <h3>{person.username}'s Threads</h3>
+    <motion.div
+      className="container"
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1 }}
+    >
+      <div className="threads-container py-5 mt-5">
+        <div className="row d-flex justify-content-center">
+          {getThreadResult ? (
+            getThreadResult
+              .filter((thread) => thread.author.uid === id)
+              .slice()
+              .sort((a, b) => b.createdAt - a.createdAt)
+              .map((thread) => {
+                let createdAt = moment(thread.createdAt).fromNow(true);
+                return (
+                  <motion.div
+                    key={thread.id}
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1 }}
+                    className="col-lg-12 col-md-12 d-flex justify-content-center mt-2"
+                  >
+                    <Card
+                      className="card rounded-4 border-0 shadow p-2"
+                      style={{ width: "80%", borderColor: "#D9D9D9" }}
+                      onClick={() => handleDetail(thread.uid)}
+                    >
+                      <Card.Body>
+                        <div className="d-flex justify-content-between">
+                          <div id="title-container">
+                            <div className="d-flex align-items-center"> {/* Add this div for image and display name */}
+                              {thread.author.photoURL && (
+                                <img
+                                  src={thread.author.photoURL}
+                                  alt="User Avatar"
+                                  className="rounded-circle me-2"
+                                  style={{ width: "32px", height: "32px" }}
+                                />
+                              )}
+                              <div>
+                                <Card.Title>{thread.author.displayName}</Card.Title>
+                                <Card.Subtitle
+                                  className="mt-2"
+                                  id="title-divider"
+                                ></Card.Subtitle>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-muted">
+                            <Card.Subtitle className="card-date mt-3">
+                              {createdAt} ago
+                            </Card.Subtitle>
+                          </div>
                         </div>
-                      </div>
-                    
-                    
-
-                      {person.articles.map((x) => {
-                        let createdAt = moment(x.createdAt).fromNow(true);
-
-                        return (
-                          <>
-                            <motion.div
-                              initial={{ opacity: 0, scale: 0.5 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{ duration: 1 }}
-                              className="col-lg-12 col-md-12 d-flex justify-content-center mt-3"
-                            >
-                              <Card
-                                className="card rounded-08 shadow border-0 p-2"
-                                style={{ width: "24rem" }}
-                              >
-                                <Card.Body>
-                                  <div id="title-container">
-                                    <Card.Title>
-                                      <img
-                                        id="card_img"
-                                        src={person.profile_img}
-                                        alt=""
-                                      />{" "}
-                                      {person.username}
-                                    </Card.Title>
-                                    <Card.Subtitle
-                                      className="mt-2"
-                                      id="title-divider"
-                                    >
-                                      .
-                                    </Card.Subtitle>
-                                    <Card.Subtitle className="card-date mt-3 text-muted">
-                                      {createdAt} ago
-                                    </Card.Subtitle>
-                                  </div>
-
-                                  <Button
-                                    id="cat"
-                                    className="btn-sm"
-                                    variant="success"
-                                  >
-                                    {x.theme}
-                                  </Button>
-                                  <Card.Text>
-                                    <h5>{x.title}</h5>
-                                  </Card.Text>
-                                </Card.Body>
-                                <Button
-                                  variant="success"
-                                  onClick={() => handleDetail(x.id)}
-                                >
-                                  See Details
-                                </Button>
-                              </Card>
-                            </motion.div>
-                          </>
-                        );
-                      })}
-                    </>
-                  );
-                })
-            ) : getListUserLoading ? (
-              //  <p>Loading....</p>
-              <div className="container text-center justify-content-center mt-5">
-                <BorderExample />
-              </div>
-            ) : (
-              <p>{getListUserError ? getListUserError : "DATA KOSONG"}</p>
-            )}
-          </div>
+                        <div className="text-muted">
+                          <Card.Subtitle className="card-date mb-3 mt-3">
+                            {thread.theme}
+                          </Card.Subtitle>
+                        </div>
+                        <Card.Text>
+                          <h2 className="fw-bold">{thread.title}</h2>
+                        </Card.Text>
+                        <Card.Text>
+                          <h5>{thread.content}</h5>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </motion.div>
+                );
+              })
+          ) : getThreadLoading ? (
+            <div className="container text-center justify-content-center mt-5">
+              <BorderExample />
+            </div>
+          ) : (
+            <p>{getThreadError ? getThreadError : "DATA KOSONG"}</p>
+          )}
         </div>
-      </motion.div>
-    </>
+      </div>
+    </motion.div>
+  </>
   );
 }
 
 export default CardProfile;
+
+

@@ -1,6 +1,6 @@
 // Home.js
 
-import React, { useEffect, Profiler } from "react";
+import React, { useEffect } from "react";
 import { Cards } from "../components";
 import NavbarUser from "../components/NavbarUser";
 import { Container, Row, Col } from "react-bootstrap";
@@ -14,19 +14,16 @@ import { Link, Outlet } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import RightBar from "../components/RightBar/RightBar";
 import Sidebar from "../components/Sidebar";
+import EditImg from "../components/AddUser/EditImg";
 
-function Home() {
+function EditProfile() {
   const getToken = localStorage.getItem("USER_ID");
   if (getToken === null) {
     window.location = "/login";
   }
-  
-  
+
   return (
     <>
-    
- 
- 
       <Container fluid>
         <Row>
           <Col md={3}>
@@ -34,19 +31,16 @@ function Home() {
             <Sidebar />
           </Col>
           <Col md={6}>
-          
-            <Cards />
+       <EditImg/>
           </Col>
           <Col md={3}>
-            {/* Right Sidebar */}
             <RightBar/>
           </Col>
         </Row>
         <Outlet />
       </Container>
-    
     </>
   );
 }
 
-export default Home;
+export default EditProfile;

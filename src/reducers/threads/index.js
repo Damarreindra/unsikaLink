@@ -19,7 +19,15 @@ const user = (state = initialState, action) =>{
                 getThreadLoading: action.payload.loading,
                 getThreadError: action.payload.errorMessage,
             }
-
+            case 'UPDATE_COMMENTS':
+                return {
+                  ...state,
+                  threads: state.threads.map((thread) =>
+                    thread.id === action.payload.threadId
+                      ? { ...thread, comments: action.payload.comments }
+                      : thread
+                  ),
+                };
         default : 
         return state
     }

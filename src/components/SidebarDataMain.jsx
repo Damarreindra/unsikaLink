@@ -5,7 +5,7 @@ import * as AiIcons from 'react-icons/ai'
 
 const id = localStorage.getItem('USER_ID')
 
-export const SidebarData = 
+export const SidebarDataMain = 
 
 [
     {
@@ -19,5 +19,6 @@ export const SidebarData =
         path:`/profile/${id}`,
         icon:<CgIcons.CgProfile/>,
         cName:'nav-text'
-    }
+    },
+
 ]

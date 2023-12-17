@@ -76,8 +76,8 @@ const ModalComponent = ({ show, HideHandler }) => {
               ></input>
              <select value={theme} onChange={(e)=>setTheme(e.target.value)} required >
                <option required>Pilih Tema</option>
-                <option required value="politics">Politics</option>
-                <option required value="mental">Mental Health</option>
+                <option required value="loker">Loker</option>
+                <option required value="sharing">Sharing</option>
                 <option required value="other">Other</option>
               </select>
 

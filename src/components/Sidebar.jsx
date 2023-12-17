@@ -1,75 +1,142 @@
-import React, { useState } from 'react'
-import { NavLink, Link } from 'react-router-dom'
-import * as FaIcons from 'react-icons/fa'
-import * as AiIcons from 'react-icons/ai'
-import { SidebarData } from './SidebarData'
-import Dropdown from 'react-bootstrap/Dropdown';
-import './Sidebar.css'
-import AddPost from './AddPost'
+import React, { useState, useEffect } from "react";
+import { NavLink, Link } from "react-router-dom";
+import * as FaIcons from "react-icons/fa";
+import * as AiIcons from "react-icons/ai";
+import { SidebarDataMain } from "./SidebarDataMain";
+import { SidebarDataSetting } from "./SidebarDataSetting";
+import Dropdown from "react-bootstrap/Dropdown";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { collection, getDocs } from "firebase/firestore";
+
+import "./Sidebar.css";
+import AddPost from "./AddPost";
 
 function Sidebar() {
-    const [sidebar, setSidebar] = useState(true)
-    const uname = localStorage.getItem('uname')
-    const profileImg = localStorage.getItem('img')
-   const removeToken = () =>{
-    localStorage.removeItem('USER_ID')
-   }
-    const activeLink = 'text-success'
-    const normalLink = 'text-dark'
-    const id = localStorage.getItem('id')
-    const showSidebar = () => setSidebar(!sidebar)
+  const [sidebar, setSidebar] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in.
+        setUser(user);
+      } else {
+        // No user is signed in.
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+
   return (
     <>
-    <div className="navbar">
-        <Link to='#' className='menu-bars'>
-            <FaIcons.FaBars onClick={showSidebar}/>
-        </Link>
-        <h2 style={{marginLeft:'240px'}}>Home</h2>
-       
-    </div>
-    <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-        <ul className='nav-menu-items'>
-            <li className="navbar-toggle">  
-                <img src="https://user-images.githubusercontent.com/80618060/209421785-aa078881-83eb-41e3-ae28-9b05ee0d5dc0.png" style={{width:'40px'}} alt="" srcset="" />
-                <h2>Tweeder</h2>
-                <Link to='#' className='menu-bars' style={{display:'none'}}>
-                    <AiIcons.AiOutlineClose/>
-                </Link>
-            </li>
-            {SidebarData.map((item, index)=>{
-                return(
-                    <li key={index} className={item.cName}>
-                        <NavLink to={item.path}
-                        className={({isActive})=>
-                        isActive ? activeLink : normalLink
-                        }
-                        >
-                            {item.icon}
-                            <span>{item.title}</span>
-                        </NavLink>
-                    </li>
-                )
-            })}
-            <li id='add-post-btn'>
-                <AddPost/>
-            </li>
-            <li>
-            <Dropdown>
-            <Dropdown.Toggle id='btn-logout' className='text-dark' style={{textDecoration:'none'}}>
-                <img id='profile-img' src={profileImg} alt="" />
-                <h2 id='profile-uname'>{uname}</h2>
-            </Dropdown.Toggle>
+      <nav style={{ marginLeft: "179px" }} className="nav-menu active p-3">
+        <ul className="nav-menu-items">
+          <li className="navbar-toggle">
+            <img
+              src="/images/unsika_logo.png"
+              style={{ width: "40px", verticalAlign: "middle" }}
+              alt=""
+              srcSet=""
+            />
+            <h2 style={{ display: "inline-block", marginLeft: "10px" }}>
+              UnsikaLink
+            </h2>
 
-            <Dropdown.Menu>
-                <Dropdown.Item href="/login" onClick={()=>removeToken()}>Logout</Dropdown.Item>
-            </Dropdown.Menu>
+            <Link to="#" className="menu-bars" style={{ display: "none" }}>
+              <AiIcons.AiOutlineClose />
+            </Link>
+          </li>
+
+          <div className="container border rounded-pill mb-4 p-3">
+            {user && (
+             <div style={{ display: 'flex', alignItems: 'center' }}>
+             <img
+               src={user.photoURL}
+               alt="Profile"
+               style={{
+                 width: "40px",
+                 height: "40px",
+                 borderRadius: "50%",
+                 border: "0.2px solid #d9d9d9",
+                 marginRight: "10px", // Add margin for spacing
+               }}
+             />
+             <div>
+               <h5>{user.displayName}</h5>
+             </div>
+           </div>
+           
+            )}
+          </div>
+
+          <small className="text-muted">MAIN</small>
+          {SidebarDataMain.map((item, index) => {
+            return (
+              <li key={index} className={item.cName}>
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    isActive ? "text-info" : "text-dark"
+                  }
+                >
+                  {item.icon}
+                  <span>{item.title}</span>
+                </NavLink>
+              </li>
+            );
+          })}
+
+          <small className="text-muted">SETTING</small>
+          {SidebarDataSetting.map((item, index) => {
+            return (
+              <li key={index} className={item.cName}>
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    isActive ? "text-info" : "text-dark"
+                  }
+                >
+                  {item.icon}
+                  <span>{item.title}</span>
+                </NavLink>
+              </li>
+            );
+          })}
+
+          <li id="add-post-btn">
+            <AddPost />
+          </li>
+          {/* <li>
+            <Dropdown>
+              <Dropdown.Toggle
+                id="btn-logout"
+                className="text-dark"
+                style={{ textDecoration: "none" }}
+              >
+                <img id="profile-img" src={user?.photoURL} alt="" />
+                <h2 id="profile-uname">{user?.displayName}</h2>
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  href="/login"
+                  onClick={() => {
+                    // Implement your logout logic
+                  }}
+                >
+                  Logout
+                </Dropdown.Item>
+              </Dropdown.Menu>
             </Dropdown>
-            </li>
+          </li> */}
         </ul>
-            
-    </nav>
+      </nav>
     </>
-  )
+  );
 }
 
-export default Sidebar
+export default Sidebar;

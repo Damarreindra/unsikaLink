@@ -3,7 +3,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
-  onAuthStateChanged 
+  onAuthStateChanged, 
+  updateProfile
 } from "firebase/auth";
 import {
   doc,
@@ -103,12 +104,14 @@ export const addUser = (data) => async (dispatch) => {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       data.email,
-      data.password
+      data.password,
     );
-    const userId = userCredential.user.uid;
+    
+    await updateProfile(auth.currentUser, {
+      displayName: data.username,
+      photoURL:"https://res.cloudinary.com/dttd52ltg/image/upload/v1702484526/n0lyybruxdngvdrammng.jpg"
+    });
 
-    const userDocRef = doc(db, "users", userId);
-    await setDoc(userDocRef, data);
 
     dispatch({
       type: ADD_USER,
@@ -128,33 +131,35 @@ export const addUser = (data) => async (dispatch) => {
   }
 };
 
+
 export const addPost = (data) => async (dispatch) => {
   dispatch({
     type: ADD_POST,
     payload: { loading: true, data: false, errorMessage: false },
   });
-  const db = getFirestore(app);
+
   const auth = getAuth(app);
 
   try {
-    await new Promise((resolve) => {
+    await new Promise((resolve, reject) => {
       onAuthStateChanged(auth, async (user) => {
         if (!user) {
-          throw new Error("No logged-in user");
+          reject(new Error("No logged-in user"));
+          return;
         }
 
-        const userDocRef = doc(db, "users", user.uid);
-        const userDocSnapshot = await getDoc(userDocRef);
+        const postDataWithAuthor = {
+          ...data,
+          author: { uid: user.uid, displayName: user.displayName, photoURL: user.photoURL }
+                };
 
-        if (!userDocSnapshot.exists()) {
-          throw new Error("User data not found");
+        try {
+          const db = getFirestore(app);
+          await addDoc(collection(db, "threads"), postDataWithAuthor);
+          resolve();
+        } catch (error) {
+          reject(error);
         }
-
-        const userData = userDocSnapshot.data();
-        const postDataWithAuthor = { ...data, author: userData.username };
-
-        await addDoc(collection(db, "threads"), postDataWithAuthor);
-        resolve();
       });
     });
 
@@ -171,6 +176,8 @@ export const addPost = (data) => async (dispatch) => {
     return false;
   }
 };
+
+
 
 export const addPostProfile = (data) => async (dispatch) => {
   const id = localStorage.getItem("id");
@@ -205,7 +212,7 @@ export const getComments = () => async (dispatch) => {
   const db = getFirestore(app);
 
   try {
-    const commentsCollection = collection(db, "comments");
+    const commentsCollection = collection(db, "threads");
     const commentsSnapshot = await getDocs(commentsCollection);
     const commentsData = commentsSnapshot.docs.map((doc) => doc.data());
 
@@ -221,26 +228,43 @@ export const getComments = () => async (dispatch) => {
   }
 };
 
-export const addComment = (data) => async (dispatch) => {
+export const addComment = (threadId, commentData) => async (dispatch) => {
   dispatch({
     type: ADD_COMMENT,
     payload: { loading: true, data: false, errorMessage: false },
   });
+
   const db = getFirestore(app);
 
   try {
-    await addDoc(collection(db, "comments"), data);
+    const threadRef = doc(db, 'threads', threadId);
+
+    // Assuming your existing thread document has a 'comments' field that is an array
+    const threadDoc = await getDoc(threadRef);
+    const existingComments = threadDoc.exists() ? threadDoc.data().comments || [] : [];
+
+    // Add the new comment to the existing comments array
+    const updatedComments = [...existingComments, commentData];
+
+    // Update the thread document with the new comments array
+    await updateDoc(threadRef, { comments: updatedComments });
+
     dispatch({
       type: ADD_COMMENT,
       payload: { loading: false, data: true, errorMessage: false },
     });
   } catch (error) {
+    console.error('Error adding comment:', error);
+
     dispatch({
       type: ADD_COMMENT,
       payload: { loading: false, data: false, errorMessage: error.message },
     });
   }
 };
+
+
+
 
 export const addProfileImg = (data) => {
   return async (dispatch) => {

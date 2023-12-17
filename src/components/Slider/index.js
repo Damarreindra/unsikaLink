@@ -16,7 +16,7 @@ function UncontrolledExample() {
       >
        <div id="text">
         <h1 style={{ fontSize: '2rem' }}>Hi, {username}</h1>
-        <h2>Welcome to Tweeder</h2>
+        <h2>Welcome to UnsikaLink</h2>
       </div>
       <div className="dark-overlay">
         <img

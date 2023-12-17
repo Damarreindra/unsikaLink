@@ -397,6 +397,9 @@ body {
 .sign-in:hover{
   color: #65e67f;
 }
+.card:hover{
+  cursor: pointer;
+}
 
 .content{
   height: 100vh;

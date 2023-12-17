@@ -34,7 +34,7 @@ const AddPost = () => {
             onClick={HandleShowModal}
             type="button"
             id="ButtonPopUpLoggedIn"
-            className="btn btn-success mb-3 btn-lg justify-content-center"
+            className="btn btn-dark mb-3 btn-lg justify-content-center"
         >
            Tweed
         </button>
@@ -56,7 +56,6 @@ const AddPost = () => {
       )}
       <ModalComponent show={isModalShow} HideHandler={HandleShowModal} />
       <div id="tf" className="container text-center">
-        {/* <h3 className="text-white mt-5 mb-3" style={{marginTop:'10px'}}>Threads Feed</h3> */}
     
         <div className="popup-container" id="MainPopUp">
           <div className="container col-md-6">

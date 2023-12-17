@@ -56,17 +56,17 @@ function AddUser() {
           <div className="row g-0">
             <div className="col-md-6 d-none d-md-block">
               <img
-                src="images/tangga.jpg"
+                src="images/bg_register.png"
                 className="img-fluid rounded-start"
                 alt="..."
               />
             </div>
             <div className="col-md-6 mx-auto">
               <div className="card-body text-center">
-                <h2 className="card-title border-bottom mb-4 text-success">
-                  Tweeder
+                <h2 className="card-title border-bottom mb-4" style={{color:'#051334'}}>
+                  UnsikaLink
                 </h2>
-                <h5 className="card-title mb-3">Registration</h5>
+                <h5 className="card-title mb-3 fw-bold text-start fs-2" style={{color:'#051334'}}>Register</h5>
                 <form action="" onSubmit={(e) => handleSubmit(e)} id="form">
                   <div className="form-floating mb-3">
                     <input
@@ -111,7 +111,7 @@ function AddUser() {
                     <label htmlFor="floatingPassword">Password</label>
                   </div>
                   {error && <div className="alert alert-danger">{error}</div>}
-                  <button type="submit" className="btn btn-success">
+                  <button type="submit" className="btn"  style={{background:'#051334', color:'white'}}>
                     Register
                   </button>
                   <div className="container mt-3">
@@ -119,7 +119,8 @@ function AddUser() {
                       Already have an account?{" "}
                       <Link
                         to="/login"
-                        style={{ color: "green", textDecoration: "none" }}
+                        className="fw-bold"
+                        style={{ color: "#051322", textDecoration: "none" }}
                       >
                         Login
                       </Link>
